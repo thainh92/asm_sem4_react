@@ -1,13 +1,14 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import {
     Avatar,
     Box, Button,
     Divider,
     IconButton,
     Input,
-    Link,
     ListItemIcon,
     Menu,
+    Link as Link1,
     MenuItem,
     Tooltip,
     Typography
@@ -24,26 +25,40 @@ const Navbar = () => {
     };
     return (
         <React.Fragment>
-            <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'space-between', mt: '1rem'}}>
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                justifyContent: 'space-between',
+                mt: '1rem'
+            }}>
                 <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center', ml: '2rem'}}>
                     <Typography sx={{minWidth: 100}}>
-                        <Link href="/products" underline="none">
-                            Products
+                        <Link to="/products">
+                            <Button>
+                                Products
+                            </Button>
                         </Link>
                     </Typography>
                     <Typography sx={{minWidth: 100}}>
-                        <Link href="/" underline="none">
-                            Create New Product
+                        <Link to="/addProduct">
+                            <Button>
+                                Create New Product
+                            </Button>
                         </Link>
                     </Typography>
                     <Typography sx={{minWidth: 100}}>
-                        <Link href="/orders" underline="none">
-                            Orders
+                        <Link to="/orders">
+                            <Button>
+                                Orders
+                            </Button>
                         </Link>
                     </Typography>
                     <Typography sx={{minWidth: 100}}>
-                        <Link href="/orders" underline="none">
-                            Create New Orders
+                        <Link to="/addOrder">
+                            <Button>
+                                Create New Order
+                            </Button>
                         </Link>
                     </Typography>
                 </Box>

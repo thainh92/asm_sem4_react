@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import {Link, useParams} from "react-router-dom";
 
 function createData(name, calories, fat, carbs, protein) {
     return {name, calories, fat, carbs, protein};
@@ -28,16 +29,25 @@ const rows = [
 ];
 
 const Product = () => {
-    const [products, listProducts] = useState([]);
+    const [products, setProducts] = useState([]);
+
+    const {id} = useParams();
 
     useEffect(() => {
-        loadProducts().then((response) => {console.log(response)});
+        loadProducts().then((response) => {
+            console.log(response)
+        });
     }, []);
 
     const loadProducts = async () => {
         const result = await axios.get("http://localhost:9123/products");
-        listProducts(result.data);
+        setProducts(result.data);
         console.log(result.data);
+    }
+
+    const deleteProduct = async (id) => {
+        await axios.delete(`http://localhost:9123/products/${id}`);
+        loadProducts();
     }
 
     return (
@@ -62,7 +72,7 @@ const Product = () => {
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell component="th" scope="row">
-                                {index+1}
+                                {index + 1}
                             </TableCell>
                             <TableCell align="right">{product.code}</TableCell>
                             <TableCell align="right">{product.name}</TableCell>
@@ -72,10 +82,24 @@ const Product = () => {
                             <TableCell align="right">{product.createdAt}</TableCell>
                             <TableCell align="right">
                                 <Stack sx={{display: 'flex'}}>
-                                    <Button sx={{margin: 0.5}} variant="outlined" startIcon={<EditIcon />}>
-                                        Edit
-                                    </Button>
-                                    <Button sx={{margin: 0.5}} variant="outlined" startIcon={<DeleteIcon />} color="error">
+                                    <Link to={`/editProduct/${product.id}`}>
+                                        <Button sx={{margin: 0.5, width: '100px'}} variant="outlined"
+                                                startIcon={<EditIcon/>}>
+                                            Edit
+                                        </Button>
+                                    </Link>
+                                    <Button
+                                        sx={{margin: 0.5, width: '100px'}}
+                                        variant="outlined"
+                                        startIcon={<DeleteIcon/>}
+                                        color="error"
+                                        onClick={() => {
+                                                if (window.confirm("Are you sure want to delete this product?")){
+                                                    deleteProduct(product.id)
+                                                }
+                                            }
+                                        }
+                                    >
                                         Delete
                                     </Button>
                                 </Stack>
